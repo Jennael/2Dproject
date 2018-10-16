@@ -1,6 +1,7 @@
 package sat;
 
 import immutable.ImList;
+import immutable.EmptyImList; //
 import sat.env.Environment;
 import sat.formula.Clause;
 import sat.formula.Formula;
@@ -20,8 +21,8 @@ public class SATSolver {
      *         null if no such environment exists.
      */
     public static Environment solve(Formula formula) {
-        // TODO: implement this.
-        throw new RuntimeException("not yet implemented.");
+        Environment env = new Environment();
+        return solve(formula.getClauses(), env);
     }
 
     /**
@@ -37,8 +38,10 @@ public class SATSolver {
      *         or null if no such environment exists.
      */
     private static Environment solve(ImList<Clause> clauses, Environment env) {
-        // TODO: implement this.
-        throw new RuntimeException("not yet implemented.");
+
+
+        if ()
+
     }
 
     /**
@@ -53,8 +56,56 @@ public class SATSolver {
      */
     private static ImList<Clause> substitute(ImList<Clause> clauses,
             Literal l) {
-        // TODO: implement this.
-        throw new RuntimeException("not yet implemented.");
+        /*  Attempt 1
+        Formula newF = new Formula();
+        for (Clause c: clauses){
+            Clause newC = new Clause();
+            if (c.contains(l)){
+                Literal negl = l.getNegation();
+                newC.add(negl);
+            }else{
+                newC.add(l);
+            }
+            newF.addClause(newC);
+        }
+        return (ImList<Clause>) newF;
+        */
+
+        //  Attempt 1 Correction:
+        //  1. Setting literal to true != negation
+        //  2. Use clause.reduce(literal) instead, returns new clause.
+
+        //  Mistake:
+        //  ImList<Clause> newC = new ImList<Clause>();
+        //  ERROR: ImList cannot be instantiated as it is abstract, use EmptyImList instead.
+
+        /*  Attempt 2
+        ImList<Clause> newClauses = new EmptyImList<Clause>();
+        for (Clause c: clauses){
+            if (c.contains(l)) {
+                Clause newC = c.reduce(l);
+                newClauses.add(newC);
+            } else {
+                newClauses.add(c);
+            }
+        }
+        return newClauses;
+         */
+
+        //  Attempt 2 Correction:
+        //  1. don't addClause for null case clause
+        //  2. Reduce will return unchanged clause if l not in clause.
+        //      if (c.contains(l)) {...} is redundant.
+
+        ImList<Clause> newClauses = new EmptyImList<Clause>();
+        for (Clause c: clauses){
+            Clause newC = c.reduce(l);
+            if (newC != null) {
+                newClauses.add(newC);
+            }
+        }
+        return newClauses;
+
     }
 
 }

@@ -27,6 +27,18 @@ public class SATSolverTest {
     public void testSATSolver1(){
     	// (a v b)
     	Environment e = SATSolver.solve(makeFm(makeCl(a,b))	);
+
+    	//MM: makeCl(Literal a,b)--> Clause c, c.add(a), c.add(b), return c;
+        //  class Clause implements Iterable<Literal>
+        //  private final ImList<Literal> literals
+        //  list of literals l1,l2,...
+        //  a,b,!c,d = (a or b or !c or d)
+        //MM: c.add(l)-->
+        //  return literals if literals contain l,
+        //  return null if literals contain !l,
+        //  return literals.add(l)
+        //MM: makeFm(Clause c,d)--> Formula f, f.addClause(c), f.addClause(d), return F;
+        //MM:
 /*
     	assertTrue( "one of the literals should be set to true",
     			Bool.TRUE == e.get(a.getVariable())  

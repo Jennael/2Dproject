@@ -166,15 +166,21 @@ public class Clause implements Iterable<Literal> {
     }
 
     private static ImList<Literal> reduce(ImList<Literal> literals, Literal l) {
-        if (literals.isEmpty()) return literals;
+        if (literals.isEmpty()) return literals; //return empty clause
+
         Literal first = literals.first();
         ImList<Literal> rest = literals.rest();
+
+        //E.g. (a or b or c or !a)
         if (first.equals(l)) return null;
+        //clause becomes true-->return null (1 or b or c or !a)
         else if (first.equals(l.getNegation())) return rest;
-        else {
+        //clause requires further work-->return (b or c or !a)
+        else { //first literal is not a nor !a-->reduce(b or c or !a)
             ImList<Literal> restR = reduce(rest, l);
             if (restR == null) return null;
             return restR.add(first);
+            //if no a nor !a is found in clause, return (a or b or c or !a)
         }
     }
 
