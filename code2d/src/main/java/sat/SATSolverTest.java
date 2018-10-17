@@ -45,10 +45,13 @@ public class SATSolverTest {
                                 newClause = newClause.add(NegLiteral.make(Integer.toString(abs(n))));
                                 //System.out.println(NegLiteral.make(l).toString()+"neg");
                                 //System.out.println(newClause.toString());
+                            } else {
+                                f2= f2.addClause(newClause);
+                                newClause = new Clause();
                             }
                         }
                     }
-                    f2= f2.addClause(newClause);
+                    //f2= f2.addClause(newClause);
                 }
                 if (newLine.charAt(0) == 'p'){
                     //System.out.println("parse");
