@@ -35,7 +35,7 @@ public class SATSolverTest {
                     String[] lineArray = newLine.split(" ");
                     Clause newClause = new Clause();
                     for (String l : lineArray){
-                        if (l != ""){
+                        if (!(l.isEmpty())){
                             int n = Integer.parseInt(l);
                             if (n != 0 && n>0){
                                 newClause= newClause.add(PosLiteral.make(l));
@@ -61,7 +61,7 @@ public class SATSolverTest {
                 }
             }
         }
-
+        //System.out.println(f2.toString());
         System.out.println("SAT solver starts!!!");
         long started = System.nanoTime();
         Environment e = SATSolver.solve(f2);
@@ -100,7 +100,6 @@ public class SATSolverTest {
     Literal nb = b.getNegation();
     Literal nc = c.getNegation();
     */
-
 /*
     public void testSATSolver1(){
     	// (a v b)
@@ -121,17 +120,13 @@ public class SATSolverTest {
     	//assertTrue( "one of the literals should be set to true",
     			//Bool.TRUE == e.get(a.getVariable())
     			//|| Bool.TRUE == e.get(b.getVariable())	);
-
-
     }*/
-
 /*
     public void testSATSolver2(){
     	// (~a)
     	Environment e = SATSolver.solve(makeFm(makeCl(na)));
 
     	//assertEquals( Bool.FALSE, e.get(na.getVariable()));
-
     }*/
 /*
     private static Formula makeFm(Clause... e) {
@@ -141,7 +136,6 @@ public class SATSolverTest {
         }
         return f;
     }
-
     private static Clause makeCl(Literal... e) {
         Clause c = new Clause();
         for (Literal l : e) {
