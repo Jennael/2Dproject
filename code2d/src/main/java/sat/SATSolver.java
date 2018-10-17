@@ -25,7 +25,7 @@ public class SATSolver {
      */
     public static Environment solve(Formula formula) {
         Environment env = new Environment();
-        NonEmptyImList clauseList = (NonEmptyImList) formula.getClauses();
+        ImList<Clause> clauseList = formula.getClauses();
         return solve(clauseList, env);
     }
 
@@ -42,7 +42,6 @@ public class SATSolver {
      *         or null if no such environment exists.
      */
     private static Environment solve(ImList<Clause> clauses, Environment env) {
-
         //If there are no clauses, the formula is trivially satisfiable.
         if (clauses.isEmpty()) {
                 return env;
