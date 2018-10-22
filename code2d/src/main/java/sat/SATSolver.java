@@ -26,9 +26,7 @@ public class SATSolver {
      *         null if no such environment exists.
      */
     public static Environment solve(Formula formula) {
-        Environment env = new Environment();
-        ImList<Clause> clauseList = formula.getClauses();
-        return solve(clauseList, env);
+        return solve(formula.getClauses(), new Environment());
     }
 
     /**
@@ -49,18 +47,14 @@ public class SATSolver {
                 return env;
         }
         //Otherwise, find the smallest clause (by number of literals).
-        Clause min = new Clause();
+        Clause min = clauses.first();
         for (Clause c: clauses){
-            if (min.isEmpty()){ //min = c for first iteration
-                min = c;
-            }
             if (min.size() < c.size()){ //min = min(min, c) subsequently
                 min = c;
-            }
-        } //smallest clause = min
-        //If there is an empty clause, the clause list is unsatisfiable.
-        if (min.isEmpty()){
-            return null;
+            } //smallest clause = min
+            if (min.isEmpty()){
+                return null;
+            } //If there is an empty clause, the clause list is unsatisfiable.
         }
         if (min.isUnit()){
             Literal l = min.chooseLiteral(); //choose the single literal l
@@ -70,9 +64,7 @@ public class SATSolver {
             } else {
                 env1 = env.putFalse(l.getVariable());
             }
-            ImList<Clause> clauses1 = substitute(clauses, l);
-            //RECURSIVELY SOLVE
-            //System.out.println(solve(clauses1, env1).toString());
+            ImList<Clause> clauses1 =  substitute(clauses, l);
             return (solve(clauses1, env1));
         } else {
             Literal l = min.chooseLiteral(); //choose the literal l out of many
@@ -84,10 +76,8 @@ public class SATSolver {
                 Environment envF = env.putFalse(l.getVariable()); //env{1:T} is changed to {1:F}
                 ImList<Clause> clausesF = substitute(clauses, l.getNegation());
                 Environment resF = solve(clausesF, envF);
-                //System.out.println(solve(clausesF, envF).toString());
                 return resF;
             } else{
-                //System.out.println(solve(clausesT, envT).toString());
                 return resT;
             }
         }
@@ -96,7 +86,7 @@ public class SATSolver {
     /**
      * given a clause list and literal, produce a new list resulting from
      * setting that literal to true
-     * 
+     *
      * @param clauses
      *            , a list of clauses
      * @param l
